@@ -9,22 +9,15 @@ dotenv.config();
 
 const app = express();
 
-// --------------------------------------------------
-// ✅ CORS (works even if frontend is not created yet)
-// --------------------------------------------------
+// 🔥 CORS (no wildcard path needed)
 app.use(cors({
-  origin: "*",   // Allow all for now until frontend is deployed
+  origin: "*",  // allow everything until frontend is ready
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: false,   // No cookies needed yet
 }));
 
-// ❗ FIX: Express 5 does NOT allow "*" in OPTIONS — use "/*"
-app.options("/*", cors());
-
-// Body parser
 app.use(express.json());
 
-// Health check route
+// Health route
 app.get("/", (req, res) => {
   res.json({ message: "Micro Influencer Platform API Running..." });
 });
@@ -36,7 +29,6 @@ app.use("/api/campaigns", campaignRoutes);
 // Global error handler
 app.use(errorHandler);
 
-// Server start
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
