@@ -8,10 +8,17 @@ import { errorHandler } from "./middleware/errorHandler.js";
 dotenv.config();
 
 const app = express();
+
+// ✅ FIXED CORS
 app.use(cors({
-  origin: "*",
+  origin: ["https://deploy-frontend-gold.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
 }));
+
+// ✅ Allow preflight OPTIONS request
+app.options("*", cors());
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
